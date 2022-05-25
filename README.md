@@ -1,38 +1,26 @@
 # Avalia√ß√£o de conhecimentos em Desenvolvimento de Software
 
-## Considere a seguinte necessidade:
+## Considere os seguintes dados:
  
-Precisamos enviar uma senha de maneira segura para um cliente. Para isso, ao inv√©s de encaminh√°-la via E-mail, SMS, Slack, etc, foi dado como solu√ß√£o o desenvolvimento de um sistema com as seguintes fun√ß√µes:
- 
-1- Sistema gera <strong>senha aleat√≥ria</strong> baseada em <strong>pol√≠ticas de complexidade</strong> (tipo de caracteres, n√∫meros, letras, tamanho, etc); 
-- **Exemplo**: o usu√°rio ao clicar no bot√£o "Gerar Senha" ir√° obter uma senha aleat√≥ria;
+Url para acesso: https://main.d2shxk5imahqcz.amplifyapp.com
 
-2- Usu√°rio ir√° especificar <strong>quantas vezes</strong> a senha gerada poder√° ser vista e <strong>qual o tempo</strong> que a senha ficar√° v√°lida;
-- **Exemplo**: o usu√°rio ir√° especificar que a senha possa ser vista apenas <em>duas vezes</em> pelo prazo de <em>um dia</em>;
+## Explicando o raciocinio:
+Primeiro eu fiz o front end, no comeÁo tive uma certa dificuldade em rodas o ReactJS no AWS Amplify, mas no fim deu tudo certo, devido a imprevistos que eu acabei tendo durante a semana, acabei ficando alguns dias sem o computador deixando o prazo mais curto, por conta disso acabei fazendo um frontend mais simples, sem muita estÈtica porÈm focando na sua funcionalidade.
 
-3- O sistema ir√° <strong>gerar uma URL</strong> que d√° acesso a visualiza√ß√£o da senha, baseando-se nos crit√©rios do item 02;
-- **Exemplo**: o usu√°rio enviar√° a URL para que o cliente possa visualizar a senha;
+Depois fui realizar o banco de dados utilizando o DynamoDB, fiz em MYSQL que È o que eu mais tenho pr·tica, depois de tudo configurado consegui conectar tudo certo e partir para a funÁ„o Lambda.
 
-4- Ap√≥s atingir a quantidade de visualiza√ß√µes ou o tempo dispon√≠vel, o sistema <strong>bloqueia/elimina</strong> a visualiza√ß√£o da senha (expirado).
-A senha <strong>n√£o deve ser armazenada</strong> ap√≥s sua expira√ß√£o
+A funÁ„o Lambda foi o mais divertido e desafiador de ser feito, primeiro precisava fazer uma funÁ„o que pegava os dados do front end, criptografar a senha e incluÌa no banco de dados. Minha ideia inicial era fazer com Python j· que seria a linguagem que eu mais tenho familiaridade, porÈm tive muita dificuldade de fazer o pyodbc funcionar no Lambda, nao sei se foi uma quest„o de configuraÁ„o errada ou algo do tipo, no fim para n„o perder muito tempo optei por fazer via nodeJS mesmo. Pelo node utilizei o sequelize para fazer a integraÁ„o com o banco de dados. Feito isso consegui inserir os dados, porÈm pensei em alterar um pouco a proposta. Utilize o nodemailer para enviar um email ao cliente com uma chave de acesso e com a mesma ele consegue visualizar a senha. Escolhi gerar e criptografar no backend por ser mais seguro e difÌcil de acessar caso alguÈm tenha intenÁıes maliciosas. Somente a senha do email que envia a senha que est· com baixa seguranÁa, coloque em texto puro porÈm se tivesse um pouco mais tempo teria colocado em uma vari·vel de ambiente.
+Depois precisei fazer a funÁ„o  para pegar os dados e fazer a lÛgica para verificar se o n˙mero de views ou as horas  j· tinham expirado, e tambÈm apagar a senha caso o mesmo j· tenha atingido o n˙mero de views ou o tempo apagando a senha.
 
-## Design
+Por fim, fui fazer o API Gateway, foi a parte mais simples do processo, fiz a API e fiz os mÈtodos para chamar no front e conectar com a funÁ„o Lambda.
 
-1 - <strong>Monte um desenho</strong> com a arquitetura desse sistema, considerando todos os <strong>componentes e tecnologias</strong> necess√°rias para o seu correto funcionamento. Considere essa topologia utilizando, obrigatoriamente, provedores de nuvens p√∫blicas trabalhando com o <strong>conceito de serverless</strong>. Escolha a nuvem que tiver mais conforto em trabalhar (AWS, GCP, Azure, etc)
- 
-2 - Avalie quais <strong>controles de seguran√ßa</strong> s√£o pertinentes para esse sistema, com o objetivo de proteg√™-lo ao m√°ximo, evitando vazamento de dados (ex: considere o <strong>OWASP Top10</strong>). Quest√µes de auditoria e logging s√£o importantes tamb√©m. 
- 
-3 - Explique como atender cada uma das 4 fun√ß√µes elencadas acima (requis√≠tos) e o racional de sua decis√£o. Ex: A senha aleat√≥ria ser√° gerada no front-end por xyz, ou ser√° gerada com uma fun√ß√£o no backend por abc.
-
-4 - Sinta-se livre para adicionar seus coment√°rios de novas melhorias que voc√™ julgar desej√°vel. A TOTVS estimula a criatividade e a liberdade de express√£o!
- 
-Fa√ßa uma sucinta explica√ß√£o sobre o racional do seu desenho.
-
-Essa documenta√ß√£o pode ser entregue em um arquivo pdf ou como parte da documenta√ß√£o no reposit√≥rio (Arquivos MarkDown com topologia no Draw.io, etc)
-
-## Implementa√ß√£o
-
-Fa√ßa um Fork desse reposit√≥rio, Crie uma branch com seu nome (ex: application/jose_silas_santos_pereira). 
-Envie um PR nesse repositorio do GitHub contendo as implementa√ß√µes do projeto com base na arquitetura descrita que voc√™ desenvolveu de <strong>pelo menos um dos componentes</strong> do sistema (Queremos avaliar sua l√≥gica de programa√ß√£o e estrutura√ß√£o do c√≥digo. N√£o √© necess√°rio desenvolver todos os componentes). 
-
-Para testar as implementa√ß√µes de seu projeto antes de enviar, recomendamos o uso do free tier das nuvens p√∫blicas ou projetos que emulem localmente tais nuvens como o localstack (https://github.com/localstack/localstack).
+## Seguranca:
+Primeiro que eu n„o me preocupei em fazer um sistemas de usu·rios,preferi focar apenas na parte de fazer o cÛdigo funcionar.
+O sistema se protege de alguns tipos de ataques, porÈm o mesmo apresenta algumas vulnerabilidades ( como por exemplo dados sensÌveis em texto puro).
+Considerando o OWASP 10 o programa se protege de alguns tipos de ataques com injection, j· que n„o È possÌvel injetar SQL por exemplo.
+Insecurence design tambÈm È outro exemplo, em sistemas como C++ builder s„o sistemas inseguros.
+Security Misconfiguration.
+Componentes vulner·veis, sÛ utilizei componentes que recebem atualizaÁ„o Ìndice de seguranca.
+S„o alguns exemplos do OWASP 10 que o sistema est· nos conformes.
+Ficou faltando os logs que eu gostaria de ter incluÌdo mas infelizmente n„o consegui fazer a tempo, mas julgo muito importante para verificar se o sistema est· sendo atacado e gerar uma auditoria do sistema.
+Os logs s„o extremamente importantes, eu j· implementei e utilizo atÈ hoje nos sistemas em que eu trabalho, fazendo uma conex„o com uma api do telegram e enviando todos os logs para meu celular assim monitorando os ataques, como eu disse antes infelizmente n„o deu tempo de implementar esse sistema.
