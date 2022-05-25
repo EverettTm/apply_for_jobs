@@ -3,8 +3,9 @@
 ## Considere os seguintes dados:
  
 Url para acesso: https://main.d2shxk5imahqcz.amplifyapp.com
-
-## Explicando o raciocinio:
+## Diagrama em anexo
+Diagrama de processos.png
+## Explicando o projeto
 Primeiro eu fiz o front end, no começo tive uma certa dificuldade em rodas o ReactJS no AWS Amplify, mas no fim deu tudo certo, devido a imprevistos que eu acabei tendo durante a semana, acabei ficando alguns dias sem o computador deixando o prazo mais curto, por conta disso acabei fazendo um frontend mais simples, sem muita estética porém focando na sua funcionalidade.
 
 Depois fui realizar o banco de dados utilizando o DynamoDB, fiz em MYSQL que é o que eu mais tenho prática, depois de tudo configurado consegui conectar tudo certo e partir para a função Lambda.
@@ -14,7 +15,8 @@ Depois precisei fazer a função  para pegar os dados e fazer a lógica para verifi
 
 Por fim, fui fazer o API Gateway, foi a parte mais simples do processo, fiz a API e fiz os métodos para chamar no front e conectar com a função Lambda.
 
-## Seguranca:
+
+## Segurança :
 Primeiro que eu não me preocupei em fazer um sistemas de usuários,preferi focar apenas na parte de fazer o código funcionar.
 O sistema se protege de alguns tipos de ataques, porém o mesmo apresenta algumas vulnerabilidades ( como por exemplo dados sensíveis em texto puro).
 Considerando o OWASP 10 o programa se protege de alguns tipos de ataques com injection, já que não é possível injetar SQL por exemplo.
@@ -23,4 +25,4 @@ Security Misconfiguration.
 Componentes vulneráveis, só utilizei componentes que recebem atualização índice de seguranca.
 São alguns exemplos do OWASP 10 que o sistema está nos conformes.
 Ficou faltando os logs que eu gostaria de ter incluído mas infelizmente não consegui fazer a tempo, mas julgo muito importante para verificar se o sistema está sendo atacado e gerar uma auditoria do sistema.
-Os logs são extremamente importantes, eu já implementei e utilizo até hoje nos sistemas em que eu trabalho, fazendo uma conexão com uma api do telegram e enviando todos os logs para meu celular assim monitorando os ataques, como eu disse antes infelizmente não deu tempo de implementar esse sistema.
+Os logs são extremamente importantes, eu já implementei e utilizo até hoje nos sistemas em que eu trabalho, fazendo uma conexão com uma api do telegram e enviando todos os logs para meu celular assim monitorando os ataques, como eu disse antes infelizmente não deu tempo de implementar esse sistema
